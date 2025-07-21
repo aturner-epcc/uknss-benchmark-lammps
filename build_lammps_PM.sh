@@ -2,12 +2,15 @@
 
 set -xe
 
-module rm darshan
-module rm xalt
+# Not needed for build inside a container.
 
-module load PrgEnv-gnu
-module load cudatoolkit
-module load craype-accel-nvidia80
+# module rm darshan
+# module rm xalt
+#
+# module load PrgEnv-gnu
+# module load cudatoolkit
+# module load craype-accel-nvidia80
+
 export MPICH_GPU_SUPPORT_ENABLED=1
 
 threads=64

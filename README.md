@@ -17,7 +17,7 @@ One of the possible EXAALT workflows uses ParSplice to manage multiple instances
 <img width="49%" alt="EXAALT workflow"    src="figures/exaalt_workflow.png"    title="EXAALT workflow" >
 <img width="49%" alt="EXAALT decorrelate" src="figures/exaalt_decorrelate.png" title="EXAALT decorrelate" >
 
-An individual LAMMPS job is relatively brief, and ParSplice provides a hierarchical task management layer that uses physics-based criteria to select which configurations to in order to efficiently explore the potential energy survace.  More information about EXAALT, ParSplice and LAMMPS can be found at:
+An individual LAMMPS job is relatively brief, and ParSplice provides a hierarchical task management layer that uses physics-based criteria to select which configurations to in order to efficiently explore the potential energy surface.  More information about EXAALT, ParSplice and LAMMPS can be found at:
 - EXAALT:    https://www.exascaleproject.org/research-project/exaalt/
 - ParSplice: https://doi.org/10.1021/acs.jctc.5b00916
 - LAMMPS:     https://doi.org/10.1016/j.cpc.2021.108171 
@@ -120,7 +120,7 @@ This collection of problems form a weak scaling series where each successively l
 simulates eight times as many atoms as the previous one. Computational requirements are expected
 to scale linearly with the number of atoms.
 
-The following table lists the approximate system resoures needed to run each of these jobs on
+The following table lists the approximate system resources needed to run each of these jobs on
 Perlmutter. The capability factor (c) parameter is an estimate of the computational complexity
 of the problem relative to the "reference" problem.
 
@@ -233,7 +233,7 @@ The sample data in the table below are measured runtimes from NERSC's Perlmutter
 Perlmutter's GPU nodes have one AMD EPYC 7763 CPU and four NVIDIA 40GB A100 GPUs;
 GPU jobs used four MPI tasks per node, each with one GPU and 16 cores.
 The upper rows of the table describe the weak-scaling performance of LAMMPS.
-Lower rows desribe the strong-scaling performance of LAMMPS when running the reference problem.
+Lower rows describe the strong-scaling performance of LAMMPS when running the reference problem.
 
 | Size      |  #PM nodes | Total Mem(GB) | #BenchmarkTime(sec) |
 | ----      | ---------- | ------------- | ---------  |

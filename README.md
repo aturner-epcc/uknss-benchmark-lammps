@@ -148,7 +148,7 @@ of the problem relative to the "reference" problem.
 |6     | target   |   17.2B |       8         |
 
 Each problem has its own subdirectory within the benchmarks directory.
-Within those directories, the `run_<size>_GH200.sh` script shows
+Within those directories, the `run_<size>_IsambardAI.sh` script shows
 how the jobs were executed on IsambardAI. 
 
 ### Required tests

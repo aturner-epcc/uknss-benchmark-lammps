@@ -1,0 +1,42 @@
+# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  # add package specs to the `specs` list
+  specs:
+  - cuda @12.6
+  - cmake
+  - kokkos@4.7 +wrapper +cuda cuda_arch=90
+  - lammps@20240829.4 +extra-fix +kokkos +manybody +ml-snap +replica fft_kokkos=cufft lammps_sizes=bigbig
+  concretizer:
+    unify: true
+  packages:
+    gcc:
+      externals:
+      - spec: gcc@12.3.0 languages:='c,c++,fortran'
+        prefix: /usr
+        extra_attributes:
+          compilers:
+            c: /usr/bin/gcc-12
+            cxx: /usr/bin/g++-12
+            fortran: /usr/bin/gfortran-12
+    libfabric:
+      externals:
+      - spec: libfabric@1.22.0
+        prefix: /opt/cray/libfabric/1.22.0
+        modules:
+        - libfabric/1.22.0
+      buildable: false
+    cray-libsci:
+      externals:
+      - spec: cray-libsci@25.03.0
+        prefix: /opt/cray/pe/libsci/25.03.0/GNU/12.3/aarch64
+      buildable: false
+    cray-mpich:
+      buildable: false
+      externals:
+      - spec: cray-mpich@8.1.32+cuda
+        prefix: /opt/cray/pe/mpich/8.1.32/ofi/gnu/12.3
+        modules:
+        - libfabric/1.22.0

@@ -9,6 +9,7 @@ Changes have been made to the original specification to match onto requirements
 for the UK NSS procurement.
 
 ## Benchmark Overview
+
 A fundamental challenge for molecular dynamics (MD) simulation is to propagate the dynamics for a sufficiently long simulated time to sample all of the relevant molecular configurations.  Historical MD workflows have therefore consisted of long-running jobs (or sequences of jobs), where each time-step may be accelerated by disributing atoms across parallel processing units, but the series of time-steps progresses sequentially. Recent advances in MD sampling effectively provide routes to parallelize the time dimension of the simulation as well.  
 
 EXAALT is an US ECP project aimed at enabling long-timescale MD through a combination of software optimisation to enable excellent performance on exascale architectures and the advanced sampling methods mentioned above. 
@@ -62,15 +63,17 @@ Below is a list of permitted modifications:
 
 #### Obtaining LAMMPS source code
 
-The following three commands will clone the stable branch of LAMMPS from version 22 July 2025, update 3. This is the required version for submissions.
+The following three commands will clone the stable branch of LAMMPS from version
+[29 July 2024, update 4](https://github.com/lammps/lammps/releases/tag/stable_29Aug2024_update4).
+This is the required version for submissions.
 
 ```
     git clone --single-branch --branch stable https://github.com/lammps/lammps.git lammps_src
     cd lammps_src
-    git checkout 9f06a79 
+    git checkout abfdbec 
 ```
 
-Kokkos version 4.6.02 is distributed with and used by this LAMMPS version.
+Kokkos version 4.?? is distributed with and used by this LAMMPS version.
 Results may use this version or any released version of Kokkos that work
 with this version of LAMMPS.
 
@@ -108,11 +111,20 @@ make
 make install
 ```
 
+### Spack build
+
+Spack can also be used to build LAMMPS. For example, the
+[Spack environment](https://spack-tutorial.readthedocs.io/en/latest/tutorial_environments.html)
+configuration to build the required version of LAMMPS on the IsambardAI system is available in this
+repository.
+
+- [IsambardAI Spack environment configuration for LAMMPS benchmark](isambard_ai_spack.yaml)
+
 ## Running the benchmark
 
 Input files and batch scripts for seven (7) problem sizes are provided in the benchmarks directory.
 Responses should provide results (measured or projected) for the "target" problem size.
-Reference values from NERSC's Perlutter system were evaluated using the "reference" problem size.
+Reference values from [AIRR IsambardAI system]() were evaluated using the "reference" problem size.
 Other problem sizes  have been provided as a convenience to facilitate profiling at different
 scales (e.g. socket, node, blade or rack), and extrapolation to larger sizes.
 
@@ -120,29 +132,29 @@ This collection of problems form a weak scaling series where each successively l
 simulates eight times as many atoms as the previous one. Computational requirements are expected
 to scale linearly with the number of atoms.
 
-The following table lists the approximate system resources needed to run each of these jobs on
-Perlmutter. The capability factor (c) parameter is an estimate of the computational complexity
+The following table lists the approximate system resources needed to run each of these jobs.
+The capability factor (c) parameter is an estimate of the computational complexity
 of the problem relative to the "reference" problem.
 
 
-|Index | Size     |  #atoms | Capability <bf> Factor (c)|
-|----- | ----     |  ------ | ------          |
+|Index | Size     |  #atoms | Capability Factor (c)|
+|----- | ----     |  -----: | ------:         |
 |0     | nano     |     65k |  8<sup>-5</sup> |
 |1     | micro    |    524k |  8<sup>-4</sup> |
 |2     | tiny     |   4.19M |  8<sup>-3</sup> |
 |3     | small    |   33.6M |  8<sup>-2</sup> |
-|4     | medium   |   268.M |      0.125      |
+|4     | medium   |    268M |      0.125      |
 |5     | reference|   2.15B |       1         |
 |6     | target   |   17.2B |       8         |
 
 Each problem has its own subdirectory within the benchmarks directory.
-Within those directories, the `run_<size>_A100.sh` script shows
-how the jobs were executed on Perlmutter. 
+Within those directories, the `run_<size>_GH200.sh` script shows
+how the jobs were executed on IsambardAI. 
 
 ### Required tests
 
-- **Target configuration:** The LAMMPS benchmark should be run on a minimum of *X GPU/GCD*.
-- **Reference FoM:** The reference FoM is from the Perlmutter system using Y GPU (Z nodes) is *?? s*.
+- **Target configuration:** There is *no minimum GPU/GCD count* for the LAMMPS benchmark.
+- **Reference FoM:** The reference FoM is from the IsambardAI system using 512 GPU (128 nodes): **115.0 s**.
 
 The projected FoM submitted must give at least the same performance 
 as the reference value.
@@ -173,8 +185,8 @@ The essential steps are to
 3. run the job: `srun -n #ranks  /path/to/lammps/lmp  <lammps_options>  ${BENCH_SPEC}`
 
 No lammps_options are needed for CPU-only runs.
-The recommended lammps_options for Perlmutter-GPU (and similar systems) are:
-`-k on g 1 -sf kk -pk kokkos newton on neigh half` 
+The recommended lammps_options for IsmabardAI GPU system (and similar systems) are:
+`-k on g $gpus_per_node -sf kk -pk kokkos newton on neigh half` 
 
 ### Numerical reproducibility
 
@@ -201,7 +213,7 @@ the input file (`in.snap.test`) as follows:
 
 Correctness can be verified using the `benchmarks/validate.py` script,
 which compares the total energy per unit cell after 100 time-steps
-to the expected value on computed on Perlmutter ( -8.7467391 ).
+to the expected value on computed on NERSC Perlmutter (-8.7467391).
 The tolerance for the relative error is a physics-motivated function of the problem size
 and is more strict for larger problems.
 
@@ -229,28 +241,27 @@ and excludes the preliminary work needed to set-up the job.
 
 ### Reference Performance on Perlmutter
 
-The sample data in the table below are measured runtimes from NERSC's Perlmutter GPU system.
-Perlmutter's GPU nodes have one AMD EPYC 7763 CPU and four NVIDIA 40GB A100 GPUs;
-GPU jobs used four MPI tasks per node, each with one GPU and 16 cores.
-The upper rows of the table describe the weak-scaling performance of LAMMPS.
+The sample data in the table below are measured BencharkTime from the IsambardAI GPU system.
+IsambardAI's GPU nodes each have four NVIDIA GH200 superchips;
+GPU jobs used four MPI processes per node, each with one GPU and 72 cores.
+The upper rows of the table describe performance change as the problem size increases.
 Lower rows describe the strong-scaling performance of LAMMPS when running the reference problem.
 
-| Size      |  #PM nodes | Total Mem(GB) | #BenchmarkTime(sec) |
-| ----      | ---------- | ------------- | ---------  |
-| nano      |    0.25    |      0.14     |      3     |
-| micro     |    0.25    |      0.23     |     25     |
-| tiny      |       1    |      1.33     |     54     |
-| small     |       1    |      7.32     |    424     |
-| medium    |       8    |      58.6     |    405     |
-| reference |      32    |      453.     |    805     |
-| reference |      64    |      453.     |    445     |
-| reference |     128    |      453.     |    213     |
-| reference |     256    |      453.     |    130     |
-| reference |     512    |     453.      |     55     |
-| reference |    1024    |     453.      |     31*    |
+| Size      |  # nodes  | BenchmarkTime (sec) |
+| ----      | ---------: | ---------: |
+| nano      |    0.25    |      1.8  |
+| micro     |    0.25    |     14.1  |
+| tiny      |       1    |     28.0  |
+| small     |       1    |    223.7  |
+| medium    |       8    |    229.1  |
+| reference |      32    |    455.5  |
+| reference |      64    |    228.0  |
+| reference |     128    |    115.0* |
+| reference |     256    |     58.7  |
+| reference |     512    |     29.4  |
 
 The reference time was determined
-by running the reference problem on 1024 Perlmutter GPU-nodes
+by running the reference problem on 128 IsambardAI GPU-nodes
 and is marked by a *.
 The projected BenchmarkTime for the target problem on the target system
 must not exceed this value.
@@ -261,7 +272,8 @@ The offeror should provide copies of:
 
 - Details of any modifications made to the LAMMPS or Kokkos source code
 - The compilation process and configuration settings used for the benchmark results - 
-  including makefiles, compiler versions, dependencies used and their versions
+  including makefiles, compiler versions, dependencies used and their versions or
+  Spack environment configuration and lock files if Spack is used
 - The job submission scripts and launch wrapper scripts used (if any)
 - The `in.snap.test` file used
 - The output from the `validate.py` script

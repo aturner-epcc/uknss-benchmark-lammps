@@ -81,7 +81,7 @@ This is the required version for submissions.
     git checkout abfdbec 
 ```
 
-Kokkos version 4.?? is distributed with and used by this LAMMPS version.
+Kokkos version 4.3.01 is distributed with and used by this LAMMPS version.
 Results may use this version or any released version of Kokkos that work
 with this version of LAMMPS.
 
@@ -247,7 +247,14 @@ The BenchmarkTime printed by `validate.py` corresponds to the
 "Loop Time" in the LAMMPS output file,
 and excludes the preliminary work needed to set-up the job.
 
-### Reference Performance on Perlmutter
+To be a valid FoM, the following conditions must be met:
+
+- LAMMPS must be compiled with the commits stated above
+  and must meet any source code modification restrictions stated above
+- The LAMMPS input files must not be modified except for permitted
+  addition of the `processors` command as described above
+
+### Reference Performance on IsambardAI
 
 The sample data in the table below are measured BencharkTime from the IsambardAI GPU system.
 IsambardAI's GPU nodes each have four NVIDIA GH200 superchips;
@@ -255,21 +262,21 @@ GPU jobs used four MPI processes per node, each with one GPU and 72 cores.
 The upper rows of the table describe performance change as the problem size increases.
 Lower rows describe the strong-scaling performance of LAMMPS when running the reference problem.
 
-| Size      |  # nodes  | BenchmarkTime (sec) |
-| ----      | ---------: | ---------: |
-| nano      |    0.25    |      1.8  |
-| micro     |    0.25    |     14.1  |
-| tiny      |       1    |     28.0  |
-| small     |       1    |    223.7  |
-| medium    |       8    |    229.1  |
-| reference |      32    |    455.5  |
-| reference |      64    |    228.0  |
-| reference |     128    |    115.0* |
-| reference |     256    |     58.7  |
-| reference |     512    |     29.4  |
+| Size      |  # GH200   | BenchmarkTime (sec) |
+| ----      | ---------: | ------------------: |
+| nano      |          1 |      1.8  |
+| micro     |          1 |     14.1  |
+| tiny      |          4 |     28.0  |
+| small     |          4 |    223.7  |
+| medium    |         32 |    229.1  |
+| reference |        128 |    455.5  |
+| reference |        256 |    228.0  |
+| reference |        512 |    115.0* |
+| reference |       1024 |     58.7  |
+| reference |       2048 |     29.4  |
 
 The reference time was determined
-by running the reference problem on 128 IsambardAI GPU-nodes
+by running the reference problem on 512 IsambardAI GH200 (128 GPU nodes)
 and is marked by a *.
 The projected BenchmarkTime for the target problem on the target system
 must not exceed this value.

@@ -192,9 +192,13 @@ The essential steps are to
 2. load the size-specific simulation parameters into the BENCH_SPEC variable: `source <size>_spec.txt`
 3. run the job: `srun -n #ranks  /path/to/lammps/lmp  <lammps_options>  ${BENCH_SPEC}`
 
+### Command-line arguments
+
 No lammps_options are needed for CPU-only runs.
 The recommended lammps_options for IsmabardAI GPU system (and similar systems) are:
 `-k on g $gpus_per_node -sf kk -pk kokkos newton on neigh half` 
+
+where `$gpus-per-node` represents the number of GPU/GCD per node.
 
 ### Numerical reproducibility
 

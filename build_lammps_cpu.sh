@@ -10,7 +10,7 @@ HOME_BASE=$(pwd)
 LAMMPS_SRC="${HOME_BASE}/lammps_src"
 LAMMPS_BUILD_DIR="build_cpu"
 INSTALL_PREFIX="${HOME_BASE}/install_cpu"
-BUILD_THREADS=4
+BUILD_JOBS=16
 
 # Clone just the stable branch of LAMMPS if not already cloned.
 if [ ! -d ${LAMMPS_SRC} ]; then
@@ -42,5 +42,5 @@ cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} \
       -D CMAKE_EXE_FLAGS="-dynamic" \
       ../cmake
 
-make -j${BUILD_THREADS}
-make install -j${BUILD_THREADS}
+make -j${BUILD_JOBS}
+make install -j${BUILD_JOBS}

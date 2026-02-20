@@ -1,12 +1,16 @@
 #!/bin/bash
 
-#set -e
+set -e
 
-threads=4
+# The build instructions have been verified for the following git sha.
+# LAMMPS version - 29th July 2024
+LAMMPS_COMMIT=abfdbec
 
 HOME_BASE=$(pwd)
 LAMMPS_SRC="${HOME_BASE}/lammps_src"
+LAMMPS_BUILD_DIR="build_cpu"
 INSTALL_PREFIX="${HOME_BASE}/install_cpu"
+BUILD_THREADS=4
 
 # Clone just the stable branch of LAMMPS if not already cloned.
 if [ ! -d ${LAMMPS_SRC} ]; then
@@ -15,19 +19,13 @@ fi
 
 # Enter the lammps directory.
 cd ${LAMMPS_SRC}
-
-# The build instructions have been verified for the following git sha.
-# LAMMPS version - 23 June 2022
-git checkout 7d5fc356fe
-
-#patch minor allocation error
-sed -i s/new\ char.7./new\ char[8]/ src/KOKKOS/kokkos.cpp
+git checkout ${LAMMPS_COMMIT}
 
 # Create the build dir .
-if [ ! -d build_cpu ]; then
-    mkdir build_cpu
+if [ ! -d ${LAMMPS_BUILD_DIR} ]; then
+    mkdir ${LAMMPS_BUILD_DIR}
 fi
-cd build_cpu
+cd ${LAMMPS_BUILD_DIR}
 rm -rf *
 
 cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} \
@@ -44,9 +42,5 @@ cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} \
       -D CMAKE_EXE_FLAGS="-dynamic" \
       ../cmake
 
-make -j${threads}
-make install -j${threads}
-
-# Only keep the install dir not the source and build dir.
-#cd ${HOME_BASE}
-#rm -rf ${LAMMPS_SRC}
+make -j${BUILD_THREADS}
+make install -j${BUILD_THREADS}

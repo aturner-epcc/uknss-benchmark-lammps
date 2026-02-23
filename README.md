@@ -1,12 +1,12 @@
-# UK NSS LAMMPS Benchmark
+# UK NNSS LAMMPS Benchmark
 
-This repository contains information on the LAMMPS benchmark for the UK NSS
+This repository contains information on the LAMMPS benchmark for the UK NNSS
 procurement. 
 
 This benchmark was originally part of the
 [NERSC-10 Benchmark Suite](https://www.nersc.gov/systems/nersc-10/benchmarks).
 Changes have been made to the original specification to match onto requirements
-for the UK NSS procurement.
+for the UK NNSS procurement.
 
 ## Benchmark Overview
 

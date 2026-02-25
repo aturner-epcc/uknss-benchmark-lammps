@@ -61,7 +61,7 @@ being modified.
 #### Obtaining LAMMPS source code
 
 The following three commands will clone the stable branch of LAMMPS from version
-[29 July 2024, update 4](https://github.com/lammps/lammps/releases/tag/stable_29Aug2024_update4).
+[29 Aug 2024, update 4](https://github.com/lammps/lammps/releases/tag/stable_29Aug2024_update4).
 This is the required version for submissions.
 
 ```

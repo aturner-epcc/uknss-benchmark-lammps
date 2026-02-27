@@ -1,6 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=EXAALT-nano
 #SBATCH --nodes=1
+#SBATCH --exclusive
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=72
 #SBATCH --gpus-per-node=1
@@ -28,10 +29,11 @@ cp ${0} .
 cp ../${spec}_spec.txt .
 
 # This is needed if LAMMPS is built using cmake.
-# install_dir="../../../install_PM"
-# export LD_LIBRARY_PATH=${install_dir}/lib64:$LD_LIBRARY_PATH
-EXE=/lus/lfs1aip2/projects/u6cb/software/spack/opt/spack/linux-neoverse_v2/lammps-20240829.4-fqv3r3we72oq5anhkkivy6ayv45xafxi/bin/lmp
+install_dir="/projects/u6cb/software/LAMMPS/22Jul2025"
+export LD_LIBRARY_PATH=${install_dir}/lib64:$LD_LIBRARY_PATH
+EXE=${install_dir}/bin/lmp
 
+export OMP_PROC_BIND=true
 export MPICH_GPU_SUPPORT_ENABLED=1
 
 gpus_per_node=1

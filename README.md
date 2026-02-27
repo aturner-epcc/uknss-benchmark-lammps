@@ -162,7 +162,7 @@ how the jobs were executed on IsambardAI.
 ### Required tests
 
 - **Target configuration:** There is *no minimum GPU/GCD count* for the LAMMPS benchmark.
-- **Reference FoM:** The reference FoM is from the IsambardAI system using 512 GPU (128 nodes): **115.0 s**.
+- **Reference FoM:** The reference FoM is from the IsambardAI system using 1024 GPU (256 nodes): **36.5 s**.
 
 The projected FoM submitted must give at least the same performance 
 as the reference value.
@@ -194,7 +194,6 @@ The essential steps are to
 
 ### Command-line arguments
 
-No lammps_options are needed for CPU-only runs.
 The recommended lammps_options for IsmabardAI GPU system (and similar systems) are:
 `-k on g $gpus_per_node -sf kk -pk kokkos newton on neigh half` 
 
@@ -268,22 +267,21 @@ Lower rows describe the strong-scaling performance of LAMMPS when running the re
 
 | Size      |  # GH200   | BenchmarkTime (sec) |
 | ----      | ---------: | ------------------: |
-| nano      |          1 |      1.8  |
-| micro     |          1 |     14.1  |
-| tiny      |          4 |     28.0  |
-| small     |          4 |    223.7  |
-| medium    |         32 |    229.1  |
-| reference |        128 |    455.5  |
-| reference |        256 |    228.0  |
-| reference |        512 |    115.0* |
-| reference |       1024 |     58.7  |
-| reference |       2048 |     29.4  |
+| nano      |          1 |      1.1  |
+| micro     |          1 |      8.5  |
+| tiny      |          4 |     17.1  |
+| small     |          4 |    137.3  |
+| medium    |         32 |    139.1  |
+| reference |        128 |    276.6  |
+| reference |        256 |    140.0  |
+| reference |        512 |     70.8  |
+| reference |       1024 |     36.5* |
+| reference |       2048 |     19.0  |
 
 The reference time was determined
-by running the reference problem on 512 IsambardAI GH200 (128 GPU nodes)
-and is marked by a *.
-The projected BenchmarkTime for the target problem on the target system
-must not exceed this value.
+by running the reference problem on 1024 IsambardAI GH200 (128 GPU nodes)
+and is marked by a *. The projected BenchmarkTime for the target problem
+on the target system must not exceed this value.
 
 ## Reporting Results
 

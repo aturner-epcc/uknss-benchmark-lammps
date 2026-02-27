@@ -162,7 +162,7 @@ how the jobs were executed on IsambardAI.
 ### Required tests
 
 - **Target configuration:** There is *no minimum GPU/GCD count* for the LAMMPS benchmark.
-- **Reference FoM:** The reference FoM is from the IsambardAI system using 1024 GPU (256 nodes): **36.5 s**.
+- **Reference FoM:** The reference FoM is from the IsambardAI system using 2048 GH200 GPU (512 nodes): **19.0 s**.
 
 The projected FoM submitted must give at least the same performance 
 as the reference value.
@@ -275,8 +275,8 @@ Lower rows describe the strong-scaling performance of LAMMPS when running the re
 | reference |        128 |    276.6  |
 | reference |        256 |    140.0  |
 | reference |        512 |     70.8  |
-| reference |       1024 |     36.5* |
-| reference |       2048 |     19.0  |
+| reference |       1024 |     36.5  |
+| reference |       2048 |     19.0* |
 
 The reference time was determined
 by running the reference problem on 1024 IsambardAI GH200 (128 GPU nodes)

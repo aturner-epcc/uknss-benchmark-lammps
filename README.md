@@ -90,36 +90,10 @@ The assessment team furthermore appreciates a description of any changes impleme
 
 Detailed build instructions can be found in the [LAMMPS Documentation](https://lammps.sandia.gov/doc/Build.html).
 
-The example below is for the [IsambardAI](https://docs.isambard.ac.uk/specs/#system-specifications-isambard-ai-phase-2) system witt four NVIDIA GH200 per node.
+As an example, we provide manual instructions for building LAMMPS on
+[IsambardAI](https://docs.isambard.ac.uk/specs/#system-specifications-isambard-ai-phase-2).
 
-```
-mkdir _build
-cd _build
-
-cmake \
-    -D CMAKE_BUILD_TYPE=Release \
-    -D CMAKE_Fortran_COMPILER=ftn \
-    -D CMAKE_C_COMPILER=cc \
-    -D CMAKE_CXX_COMPILER=CC \
-    -D CMAKE_CXX_FLAGS="-DCUDA_PROXY -fPIC" \
-    -D BUILD_MPI=yes \
-    -D BUILD_OPENMP=no \
-    -D LAMMPS_EXCEPTIONS=on \
-    -D BUILD_SHARED_LIBS=on \
-    -D PKG_KOKKOS=yes -D Kokkos_ARCH_HOPPER90=ON -D Kokkos_ENABLE_CUDA=yes -D FFT_KOKKOS=CUFFT \
-    -D CUDPP_OPT=no -D CUDA_MPS_SUPPORT=yes -D CUDA_ENABLE_MULTIARCH=no \
-    -D PKG_MOLECULE=yes \
-    -D PKG_MANYBODY=yes \
-    -D PKG_REPLICA=yes \
-    -D PKG_ML-SNAP=yes \
-    -D PKG_EXTRA-FIX=yes \
-    -D PKG_MPIIO=yes \
-    -D LAMMPS_SIZES=BIGBIG \
-    ../cmake
-
-make -j8
-make -j8 install
-```
+- [Building LAMMPS on IsambardAI](build_isambardai.md)
 
 ## Running the benchmark
 
